@@ -1,5 +1,9 @@
 package com.daw.persistence.repositories;
 
-public interface ReviewRepository {
+import org.springframework.data.repository.ListCrudRepository;
+
+import com.daw.persistence.entities.Review;
+
+public interface ReviewRepository extends ListCrudRepository<Review, Integer>{
 
 }

@@ -1,5 +1,9 @@
 package com.daw.persistence.repositories;
 
-public interface DesayunoRepository {
+import org.springframework.data.repository.ListCrudRepository;
+
+import com.daw.persistence.entities.Desayuno;
+
+public interface DesayunoRepository extends ListCrudRepository<Desayuno, Integer>{
 
 }

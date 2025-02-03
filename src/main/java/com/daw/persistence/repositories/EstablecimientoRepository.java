@@ -1,5 +1,10 @@
 package com.daw.persistence.repositories;
 
-public interface EstablecimientoRepository {
+import org.springframework.data.repository.ListCrudRepository;
+
+import com.daw.persistence.entities.Establecimiento;
+
+
+public interface EstablecimientoRepository extends ListCrudRepository<Establecimiento, Integer>{
 
 }

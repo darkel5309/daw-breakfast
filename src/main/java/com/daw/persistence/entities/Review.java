@@ -40,7 +40,7 @@ public class Review {
 	@Column(columnDefinition = "VARCHAR(255)")
 	private String imagen;
 
-	@Column()
+	@Column
 	private Integer puntuacion;
 
 	@Column(columnDefinition = "TEXT")
