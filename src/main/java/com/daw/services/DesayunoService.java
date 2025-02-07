@@ -14,11 +14,11 @@ import com.daw.services.mappers.DesayunoMapper;
 
 @Service
 public class DesayunoService {
-	
+
 	@Autowired
 	private DesayunoRepository desayunoRepository;
-	
-	public List<DesayunoDTO> findAll(){
+
+	public List<DesayunoDTO> findAll() {
 		List<DesayunoDTO> desayunosDTO = new ArrayList<DesayunoDTO>();
 
 		for (Desayuno p : this.desayunoRepository.findAll()) {
@@ -27,31 +27,62 @@ public class DesayunoService {
 
 		return desayunosDTO;
 	}
-	
-	public Optional<Desayuno> findById(int idDesayuno){
+
+	public Optional<Desayuno> findById(int idDesayuno) {
 		return this.desayunoRepository.findById(idDesayuno);
 	}
-	
+
 	public boolean existsDesayuno(int idDesayuno) {
 		return this.desayunoRepository.existsById(idDesayuno);
 	}
-	
-	public Desayuno create(Desayuno desayuno) {
-		return this.desayunoRepository.save(desayuno);
+
+	// falla
+	public DesayunoDTO create(Desayuno desayuno) {
+		desayuno.setPuntuacion(0.0);
+
+		desayuno = this.desayunoRepository.save(desayuno);
+
+		return DesayunoMapper.toDTO(desayuno);
 	}
-	
+
 	public Desayuno save(Desayuno desayuno) {
 		return this.desayunoRepository.save(desayuno);
 	}
-	
+
 	public boolean delete(int idDesayuno) {
 		boolean result = false;
-		
-		if(this.desayunoRepository.existsById(idDesayuno)) {
+
+		if (this.desayunoRepository.existsById(idDesayuno)) {
 			this.desayunoRepository.deleteById(idDesayuno);
-			
+
 			return true;
 		}
 		return result;
+	}
+
+	public List<Desayuno> getByPuntuacion() {
+		return this.desayunoRepository.findAllByOrderByPuntuacionDesc();
+	}
+
+	public List<Desayuno> getByPuntuacionFromEstablecimiento(int idEstablecimiento) {
+		return this.desayunoRepository.findByIdEstablecimientoOrderByPuntuacionDesc(idEstablecimiento);
+	}
+	
+	public List<Desayuno> getByPrecioFromEstablecimiento(int idEstablecimiento){
+		return this.desayunoRepository.findByIdEstablecimientoOrderByPrecioAsc(idEstablecimiento);
+	}
+	
+	public List<Desayuno> getAllFromEstablecimiento(int idEstablecimiento){
+		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento);
+	}
+	
+	public Desayuno modImagen(int idDesayuno, String imagen){
+		Desayuno desayuno = this.desayunoRepository.findById(idDesayuno).get();
+		
+		desayuno.setImagen(imagen);
+		
+		Desayuno desActualizado = this.desayunoRepository.save(desayuno);
+		
+		return desActualizado;
 	}
 }
