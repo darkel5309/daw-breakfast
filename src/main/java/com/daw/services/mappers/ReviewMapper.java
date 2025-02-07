@@ -13,7 +13,7 @@ public class ReviewMapper {
 		dto.setPuntuacion(review.getPuntuacion());
 		dto.setPrecio(review.getPrecio());
 		
-		dto.setUsuario(review.getUsuario().getUserName());
+		dto.setUsuario(review.getUsuario().getUsername());
 		dto.setDesayuno(review.getDesayuno().getNombre());
 		
 		return dto;

@@ -2,8 +2,6 @@ package com.daw.services.dto;
 
 import java.util.List;
 
-import com.daw.persistence.entities.Review;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

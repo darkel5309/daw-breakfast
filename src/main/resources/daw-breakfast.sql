@@ -47,16 +47,16 @@ CREATE TABLE review (
 
 -- INSERTS
 INSERT INTO usuario (username, email, password) VALUES 
-('juanperez', 'juan.perez@example.com', 'password123'),
-('mariafernandez', 'maria.fernandez@example.com', 'password123'),
-('pedroalvarez', 'pedro.alvarez@example.com', 'password123'),
-('luisa_gomez', 'luisa.gomez@example.com', 'password123'),
-('carlosmartinez', 'carlos.martinez@example.com', 'password123'),
-('ana_rodriguez', 'ana.rodriguez@example.com', 'password123'),
-('luisaramos', 'luisa.ramos@example.com', 'password123'),
-('javier_ortiz', 'javier.ortiz@example.com', 'password123'),
-('sofia_lopez', 'sofia.lopez@example.com', 'password123'),
-('daniel_garcia', 'daniel.garcia@example.com', 'password123');
+('juanperez', 'juan.perez@example.com', '1'),
+('mariafernandez', 'maria.fernandez@example.com', '12'),
+('pedroalvarez', 'pedro.alvarez@example.com', '123'),
+('luisa_gomez', 'luisa.gomez@example.com', '1234'),
+('carlosmartinez', 'carlos.martinez@example.com', '12345'),
+('ana_rodriguez', 'ana.rodriguez@example.com', '123456'),
+('luisaramos', 'luisa.ramos@example.com', '1234567'),
+('javier_ortiz', 'javier.ortiz@example.com', '12345678'),
+('sofia_lopez', 'sofia.lopez@example.com', '123456788'),
+('daniel_garcia', 'daniel.garcia@example.com', '1234567890');
 
 INSERT INTO establecimiento (nombre, descripcion, ubicacion, puntuacion) VALUES 
 ('Café de la Mañana', 'Café tradicional con opciones de desayuno ligero.', 'Madrid, España', 4.20),
