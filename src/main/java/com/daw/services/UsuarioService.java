@@ -4,10 +4,12 @@ import com.daw.persistence.entities.Usuario;
 import com.daw.persistence.repositories.UsuarioRepository;
 import com.daw.services.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UsuarioService {
 
     @Autowired
@@ -34,14 +36,8 @@ public class UsuarioService {
     }
 
     //Actualizar un usuario
-    public Usuario update(Usuario usuario){
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(usuario.getId());
-        if(usuarioOptional.isPresent()){
-          Usuario user = usuarioOptional.get();
-            return this.usuarioRepository.save(user);
-        }else{
-            throw new IllegalArgumentException("El usuario con ID:"+ usuario.getId() + "no se encuentra registrado");
-        }
+    public Usuario save(Usuario usuario){
+        return this.usuarioRepository.save(usuario);
     }
 
     //Borrar un usuario

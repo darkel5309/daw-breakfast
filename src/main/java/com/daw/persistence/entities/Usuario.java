@@ -26,13 +26,13 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(length = 30, nullable = false, unique = true)
+	@Column(length = 30, nullable = false)
 	private String username;
 
 	@Column(length = 50, nullable = false, unique = true)
 	private String email;
 
-	@Column(length = 50, nullable = false, unique = true)
+	@Column(length = 50, nullable = false)
 	private String password;
 	
 	@OneToMany(mappedBy ="usuario")
