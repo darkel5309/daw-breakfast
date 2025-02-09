@@ -36,15 +36,12 @@ public class DesayunoService {
 		return this.desayunoRepository.existsById(idDesayuno);
 	}
 
-	// falla
-	public DesayunoDTO create(Desayuno desayuno) {
+	public Desayuno create(Desayuno desayuno) {
 		desayuno.setPuntuacion(0.0);
 		if (desayuno.getImagen() == null) {
 			desayuno.setImagen("https://i.pinimg.com/736x/6d/7a/43/6d7a43e03c4a75a218a47bb6fd5bfcd0.jpg");
 		}
-		desayuno = this.desayunoRepository.save(desayuno);
-
-		return DesayunoMapper.toDTO(desayuno);
+		return this.desayunoRepository.save(desayuno);	
 	}
 
 	public Desayuno save(Desayuno desayuno) {
@@ -57,7 +54,7 @@ public class DesayunoService {
 		if (this.desayunoRepository.existsById(idDesayuno)) {
 			this.desayunoRepository.deleteById(idDesayuno);
 
-			return true;
+			result = true;
 		}
 		return result;
 	}

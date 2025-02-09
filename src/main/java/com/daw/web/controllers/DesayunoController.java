@@ -41,10 +41,10 @@ public class DesayunoController {
 		return ResponseEntity.notFound().build();
 	}
 
-	// falla
 	@PostMapping
-	public ResponseEntity<DesayunoDTO> create(@RequestBody Desayuno desayuno) {
-		return new ResponseEntity<DesayunoDTO>(this.desayunoService.create(desayuno), HttpStatus.CREATED);
+	public ResponseEntity<Desayuno> create(@RequestBody Desayuno desayuno) {
+		Desayuno savedDesayuno = this.desayunoService.create(desayuno);
+		return new ResponseEntity<>(savedDesayuno, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{idDesayuno}")

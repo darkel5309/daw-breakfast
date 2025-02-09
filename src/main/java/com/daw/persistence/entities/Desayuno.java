@@ -45,6 +45,7 @@ public class Desayuno {
 	
 	@ManyToOne
 	@JoinColumn(name="id_establecimiento", referencedColumnName = "id", insertable = false, updatable = false )
+	@JsonIgnore
 	private Establecimiento establecimiento;
 	
 	@OneToMany(mappedBy ="desayuno")
