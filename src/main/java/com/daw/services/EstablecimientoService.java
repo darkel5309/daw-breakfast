@@ -16,6 +16,7 @@ import com.daw.services.mappers.EstablecimientoMapper;
 
 
 
+
 @Service
 public class EstablecimientoService {
 
@@ -38,6 +39,28 @@ public class EstablecimientoService {
         return establecimiento.map(EstablecimientoMapper::toDTO);
     }
 	
+	public Establecimiento create(Establecimiento establecimiento) {
+		 establecimiento.setPuntuacion(0.0);
+        return this.establecimientoRepository.save(establecimiento);
+    }
+	
+	public boolean delete(int idEstablecimiento) {
+		boolean result = false;
+		
+		if(this.establecimientoRepository.existsById(idEstablecimiento)) {
+			this.establecimientoRepository.deleteById(idEstablecimiento);
+			result = true;
+		}
+		
+		return result;
+	}
+	public Establecimiento save(Establecimiento establecimiento) {
+		return this.establecimientoRepository.save(establecimiento);
+	}
+	
+	public boolean exists(int idEstablecimiento){
+		return this.establecimientoRepository.existsById(idEstablecimiento);
+	}
 	
 	
 	
