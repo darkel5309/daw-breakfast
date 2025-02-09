@@ -1,7 +1,9 @@
 package com.daw.services;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.daw.persistence.entities.Establecimiento;
 import com.daw.persistence.repositories.EstablecimientoRepository;
 import com.daw.services.dto.EstablecimientoDTO;
 import com.daw.services.mappers.EstablecimientoMapper;
+
 
 
 
@@ -28,6 +31,12 @@ public class EstablecimientoService {
 
 		return establecimientoDTO;
 	}
+	
+
+	public Optional<EstablecimientoDTO> findById(int idEstablecimiento) {
+        Optional<Establecimiento> establecimiento = this.establecimientoRepository.findById(idEstablecimiento);
+        return establecimiento.map(EstablecimientoMapper::toDTO);
+    }
 	
 	
 	

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +39,7 @@ public class Establecimiento {
 	@Column(columnDefinition = "DECIMAL(3,2)")
 	private Double puntuacion;
 	
-	@OneToMany(mappedBy = "establecimiento" )
+	@OneToMany(mappedBy = "establecimiento" , fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Desayuno> desayunos;
 }
