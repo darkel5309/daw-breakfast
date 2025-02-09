@@ -82,7 +82,7 @@ public class ReviewService {
             throw new IllegalArgumentException("Usuario no encontrado.");
         }
 
-        Optional<Desayuno> desayunoOptional = desayunoService.getNombreDesayuno(reviewDTO.getDesayuno());
+        Optional<Desayuno> desayunoOptional = desayunoService.obtenerNombreDesayuno(reviewDTO.getDesayuno());
         if (!desayunoOptional.isPresent()) {
             throw new IllegalArgumentException("Desayuno no encontrado.");
         }

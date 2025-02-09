@@ -53,7 +53,7 @@ public class ReviewController {
             return ResponseEntity.badRequest().body(null); // Usuario no encontrado
         }
 
-        Optional<Desayuno> desayunoOptional = desayunoService.getNombreDesayuno(reviewDTO.getDesayuno());
+        Optional<Desayuno> desayunoOptional = desayunoService.obtenerNombreDesayuno(reviewDTO.getDesayuno());
         if (!desayunoOptional.isPresent()) {
             return ResponseEntity.badRequest().body(null); // Desayuno no encontrado
         }
