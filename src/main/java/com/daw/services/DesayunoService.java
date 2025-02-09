@@ -61,21 +61,29 @@ public class DesayunoService {
 	}
 
 	public List<DesayunoDTO> getByPuntuacion() {
-		return this.desayunoRepository.findAllByOrderByPuntuacionDesc().stream().map(DesayunoMapper::toDTO)
+		return this.desayunoRepository.findAllByOrderByPuntuacionDesc().stream()
+				.map(DesayunoMapper::toDTO)
 				.collect(Collectors.toList());
 
 	}
 
-	public List<Desayuno> getByPuntuacionFromEstablecimiento(int idEstablecimiento) {
-		return this.desayunoRepository.findByIdEstablecimientoOrderByPuntuacionDesc(idEstablecimiento);
+	public List<DesayunoDTO> getByPuntuacionFromEstablecimiento(int idEstablecimiento) {
+		return this.desayunoRepository.findByIdEstablecimientoOrderByPuntuacionDesc(idEstablecimiento).stream()
+				.map(DesayunoMapper::toDTO)
+				.collect(Collectors.toList());
+				
 	}
 
-	public List<Desayuno> getByPrecioFromEstablecimiento(int idEstablecimiento) {
-		return this.desayunoRepository.findByIdEstablecimientoOrderByPrecioAsc(idEstablecimiento);
+	public List<DesayunoDTO> getByPrecioFromEstablecimiento(int idEstablecimiento) {
+		return this.desayunoRepository.findByIdEstablecimientoOrderByPrecioAsc(idEstablecimiento).stream()
+				.map(DesayunoMapper::toDTO)
+				.collect(Collectors.toList());
 	}
 
-	public List<Desayuno> getAllFromEstablecimiento(int idEstablecimiento) {
-		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento);
+	public List<DesayunoDTO> getAllFromEstablecimiento(int idEstablecimiento) {
+		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento).stream()
+				.map(DesayunoMapper::toDTO)
+				.collect(Collectors.toList());
 	}
 
 	public Desayuno modImagen(int idDesayuno, String imagen) {

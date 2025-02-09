@@ -74,22 +74,22 @@ public class DesayunoController {
 	}
 
 	@GetMapping("/puntuacion/{idEstablecimiento}")
-	public ResponseEntity<List<Desayuno>> puntuacionesDesayunoEstablecimiento(@PathVariable int idEstablecimiento) {
+	public ResponseEntity<List<DesayunoDTO>> puntuacionesDesayunoEstablecimiento(@PathVariable int idEstablecimiento) {
 		return ResponseEntity.ok(this.desayunoService.getByPuntuacionFromEstablecimiento(idEstablecimiento));
 	}
 
 	@GetMapping("/precio/{idEstablecimiento}")
-	public ResponseEntity<List<Desayuno>> precioDesayunoEstablecimiento(@PathVariable int idEstablecimiento) {
+	public ResponseEntity<List<DesayunoDTO>> precioDesayunoEstablecimiento(@PathVariable int idEstablecimiento) {
 		return ResponseEntity.ok(this.desayunoService.getByPrecioFromEstablecimiento(idEstablecimiento));
 	}
 	
 	@GetMapping("/establecimiento/{idEstablecimiento}")
-	public ResponseEntity<List<Desayuno>> desayunosEstablecimiento(@PathVariable int idEstablecimiento){
+	public ResponseEntity<List<DesayunoDTO>> desayunosEstablecimiento(@PathVariable int idEstablecimiento){
 		return ResponseEntity.ok(this.desayunoService.getAllFromEstablecimiento(idEstablecimiento));
 	}
 	
 	@PutMapping("/actualizarImagen/{idDesayuno}")
-	public ResponseEntity<Desayuno> imagenModificada(@PathVariable int idDesayuno, @PathVariable String imagen, @RequestBody Desayuno desayuno ){
+	public ResponseEntity<Desayuno> imagenModificada(@PathVariable int idDesayuno, @RequestBody Desayuno desayuno ){
 		if (idDesayuno != desayuno.getId()) {
 			return ResponseEntity.badRequest().build();
 		}

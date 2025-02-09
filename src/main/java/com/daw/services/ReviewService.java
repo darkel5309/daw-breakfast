@@ -17,160 +17,153 @@ import java.util.Optional;
 @Service
 public class ReviewService {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
 
-    @Autowired
-    private DesayunoService desayunoService;
+	@Autowired
+	private DesayunoService desayunoService;
 
-    @Autowired
-    private UsuarioService usuarioService; //
+	@Autowired
+	private UsuarioService usuarioService; //
 
-    // Obtener todas las reseñas
-    public List<ReviewDTO> findAll() {
-        List<ReviewDTO> reviewsDTO = new ArrayList<>();
+	// Obtener todas las reseñas
+	public List<ReviewDTO> findAll() {
+		List<ReviewDTO> reviewsDTO = new ArrayList<>();
 
-        for (Review review : this.reviewRepository.findAll()) {
-            reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a ReviewDTO
-        }
+		for (Review review : this.reviewRepository.findAll()) {
+			reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a ReviewDTO
+		}
 
-        return reviewsDTO;
-    }
+		return reviewsDTO;
+	}
 
-    // Obtener una reseña por su ID
-    public Optional<ReviewDTO> findById(int idReview) {
-        Optional<Review> reviewOptional = this.reviewRepository.findById(idReview);
+	// Obtener una reseña por su ID
+	public Optional<ReviewDTO> findById(int idReview) {
+		Optional<Review> reviewOptional = this.reviewRepository.findById(idReview);
 
-        // Si el Review existe, lo mapeamos a ReviewDTO
-        if (reviewOptional.isPresent()) {
-            return Optional.of(ReviewMapper.toDTO(reviewOptional.get()));
-        } else {
-            return Optional.empty();
-        }
-    }
+		// Si el Review existe, lo mapeamos a ReviewDTO
+		if (reviewOptional.isPresent()) {
+			return Optional.of(ReviewMapper.toDTO(reviewOptional.get()));
+		} else {
+			return Optional.empty();
+		}
+	}
 
-    // Verificar si la reseña existe por su ID
-    public boolean existsReview(int idReview) {
-        return this.reviewRepository.existsById(idReview);
-    }
+	// Verificar si la reseña existe por su ID
+	public boolean existsReview(int idReview) {
+		return this.reviewRepository.existsById(idReview);
+	}
 
-    //Actualizar la puntuacion de desayuno
-    private void updateDesayunoPuntuacion(Desayuno desayuno) {
-        // Obtener todas las reseñas del desayuno
-        List<Review> reviews = this.reviewRepository.findByIdDesayuno(desayuno.getId());
+	// Actualizar la puntuacion de desayuno
+	private void updateDesayunoPuntuacion(Desayuno desayuno) {
+		// Obtener todas las reseñas del desayuno
+		List<Review> reviews = this.reviewRepository.findByIdDesayuno(desayuno.getId());
 
-        // Calcular el promedio de las puntuaciones
-        double sumaPuntuaciones = 0;
-        for (Review review : reviews) {
-            sumaPuntuaciones += review.getPuntuacion();
-        }
+		// Calcular el promedio de las puntuaciones
+		double sumaPuntuaciones = 0;
+		for (Review review : reviews) {
+			sumaPuntuaciones += review.getPuntuacion();
+		}
 
-        double puntuacionPromedio = sumaPuntuaciones / reviews.size();
+		double puntuacionPromedio = sumaPuntuaciones / reviews.size();
 
-        // Actualizar la puntuación promedio del desayuno
-        desayuno.setPuntuacion(puntuacionPromedio);
+		// Actualizar la puntuación promedio del desayuno
+		desayuno.setPuntuacion(puntuacionPromedio);
 
-        // Guardar el desayuno con la nueva puntuación
-        this.desayunoService.save(desayuno);
-    }
+		// Guardar el desayuno con la nueva puntuación
+		this.desayunoService.save(desayuno);
+	}
 
+	// Crear una nueva reseña
+	// Crear una nueva reseña usando solo la entidad
+	// Crear una nueva reseña usando solo la entidad
+	public Review createReview(Review review, int idUsuario, int idDesayuno) {
+		Optional<Usuario> usuarioOptional = usuarioService.findById(idUsuario);
+		if (!usuarioOptional.isPresent()) {
+			throw new IllegalArgumentException("Usuario no encontrado.");
+		}
 
-    // Crear una nueva reseña
-    public ReviewDTO create(ReviewDTO reviewDTO) {
-        Optional<Usuario> usuarioOptional = usuarioService.findByUsername(reviewDTO.getUsuario());
-        if (!usuarioOptional.isPresent()) {
-            throw new IllegalArgumentException("Usuario no encontrado.");
-        }
+		Optional<Desayuno> desayunoOptional = desayunoService.findById(idDesayuno);
+		if (!desayunoOptional.isPresent()) {
+			throw new IllegalArgumentException("Desayuno no encontrado.");
+		}
 
-        Optional<Desayuno> desayunoOptional = desayunoService.obtenerNombreDesayuno(reviewDTO.getDesayuno());
-        if (!desayunoOptional.isPresent()) {
-            throw new IllegalArgumentException("Desayuno no encontrado.");
-        }
+		// Establecer las entidades relacionadas en la reseña
+		review.setUsuario(usuarioOptional.get());
+		review.setDesayuno(desayunoOptional.get());
+		review.setFecha(java.time.LocalDateTime.now());
 
-        // Crear una nueva reseña usando los datos del DTO
-        Review review = new Review();
-        review.setUsuario(usuarioOptional.get());
-        review.setDesayuno(desayunoOptional.get());
-        review.setComentarios(reviewDTO.getComentarios());
-        review.setPuntuacion(reviewDTO.getPuntuacion());
-        review.setImagen(reviewDTO.getImagen());
-        review.setPrecio(reviewDTO.getPrecio());
-        review.setFecha(java.time.LocalDateTime.now());
+		// Guardar la reseña
+		review = this.reviewRepository.save(review);
 
-        // Guardamos la reseña
-        review = this.reviewRepository.save(review);
+		// Recalcular la puntuación promedio del desayuno
+		updateDesayunoPuntuacion(desayunoOptional.get());
 
-        // Recalcular la puntuación promedio del desayuno
-        updateDesayunoPuntuacion(desayunoOptional.get());
+		return review; // Devuelve la entidad Review directamente
+	}
 
-        // Convertimos la entidad a ReviewDTO usando el ReviewMapper
-        return ReviewMapper.toDTO(review); // Aquí usamos el mapper para convertir la entidad a DTO
-    }
+	// Actualizar una reseña existente
+	public ReviewDTO update(int idReview, ReviewDTO updatedReviewDTO) {
+		Optional<Review> review = this.reviewRepository.findById(idReview);
 
+		if (review.isPresent()) {
+			Review reviewOP = review.get();
 
-    // Actualizar una reseña existente
-    public ReviewDTO update(int idReview, ReviewDTO updatedReviewDTO) {
-        Optional<Review> review = this.reviewRepository.findById(idReview);
+			// Actualizar los valores
+			reviewOP.setComentarios(updatedReviewDTO.getComentarios());
+			reviewOP.setPuntuacion(updatedReviewDTO.getPuntuacion());
+			reviewOP.setPrecio(updatedReviewDTO.getPrecio());
+			reviewOP.setImagen(updatedReviewDTO.getImagen());
 
-        if (review.isPresent()) {
-            Review reviewOP = review.get();
+			// Guardamos la reseña actualizada
+			reviewOP = this.reviewRepository.save(reviewOP);
 
-            // Actualizar los valores
-            reviewOP.setComentarios(updatedReviewDTO.getComentarios());
-            reviewOP.setPuntuacion(updatedReviewDTO.getPuntuacion());
-            reviewOP.setPrecio(updatedReviewDTO.getPrecio());
-            reviewOP.setImagen(updatedReviewDTO.getImagen());
+			// Recalcular la puntuación promedio del desayuno
+			updateDesayunoPuntuacion(reviewOP.getDesayuno());
 
-            // Guardamos la reseña actualizada
-            reviewOP = this.reviewRepository.save(reviewOP);
+			return ReviewMapper.toDTO(reviewOP); // Convertimos a DTO y lo devolvemos
+		} else {
+			throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
+		}
+	}
 
-            // Recalcular la puntuación promedio del desayuno
-            updateDesayunoPuntuacion(reviewOP.getDesayuno());
+	// Eliminar una reseña por su ID
+	public boolean delete(int idReview) {
+		Optional<Review> review = this.reviewRepository.findById(idReview);
 
-            return ReviewMapper.toDTO(reviewOP); // Convertimos a DTO y lo devolvemos
-        } else {
-            throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
-        }
-    }
+		if (review.isPresent()) {
+			this.reviewRepository.deleteById(idReview);
 
-    // Eliminar una reseña por su ID
-    public boolean delete(int idReview) {
-        Optional<Review> review = this.reviewRepository.findById(idReview);
+			// Recalcular la puntuación promedio del desayuno
+			updateDesayunoPuntuacion(review.get().getDesayuno());
 
-        if (review.isPresent()) {
-            this.reviewRepository.deleteById(idReview);
+			return true;
+		} else {
+			throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
+		}
+	}
 
-            // Recalcular la puntuación promedio del desayuno
-            updateDesayunoPuntuacion(review.get().getDesayuno());
+	// Obtener reseñas por desayuno (por ID del desayuno)
+	public List<ReviewDTO> findByDesayuno(int idDesayuno) {
+		List<ReviewDTO> reviewsDTO = new ArrayList<>();
+		List<Review> reviews = this.reviewRepository.findByIdDesayuno(idDesayuno);
 
-            return true;
-        } else {
-            throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
-        }
-    }
+		for (Review review : reviews) {
+			reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a DTO
+		}
 
+		return reviewsDTO;
+	}
 
-    // Obtener reseñas por desayuno (por ID del desayuno)
-    public List<ReviewDTO> findByDesayuno(int idDesayuno) {
-        List<ReviewDTO> reviewsDTO = new ArrayList<>();
-        List<Review> reviews = this.reviewRepository.findByIdDesayuno(idDesayuno);
+	// Obtener reseñas por usuario (por ID del usuario)
+	public List<ReviewDTO> findByUsuario(int idUsuario) {
+		List<ReviewDTO> reviewsDTO = new ArrayList<>();
+		List<Review> reviews = this.reviewRepository.findByIdUsuario(idUsuario);
 
-        for (Review review : reviews) {
-            reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a DTO
-        }
+		for (Review review : reviews) {
+			reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a DTO
+		}
 
-        return reviewsDTO;
-    }
-
-    // Obtener reseñas por usuario (por ID del usuario)
-    public List<ReviewDTO> findByUsuario(int idUsuario) {
-        List<ReviewDTO> reviewsDTO = new ArrayList<>();
-        List<Review> reviews = this.reviewRepository.findByIdUsuario(idUsuario);
-
-        for (Review review : reviews) {
-            reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a DTO
-        }
-
-        return reviewsDTO;
-    }
+		return reviewsDTO;
+	}
 }

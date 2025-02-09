@@ -1,6 +1,7 @@
 package com.daw.web.controllers;
 
 import com.daw.persistence.entities.Desayuno;
+import com.daw.persistence.entities.Review;
 import com.daw.persistence.entities.Usuario;
 import com.daw.services.DesayunoService;
 import com.daw.services.ReviewService;
@@ -47,19 +48,9 @@ public class ReviewController {
 
     // Crear una nueva reseña
     @PostMapping
-    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
-        Optional<Usuario> usuarioOptional = usuarioService.findByUsername(reviewDTO.getUsuario());
-        if (!usuarioOptional.isPresent()) {
-            return ResponseEntity.badRequest().body(null); // Usuario no encontrado
-        }
-
-        Optional<Desayuno> desayunoOptional = desayunoService.obtenerNombreDesayuno(reviewDTO.getDesayuno());
-        if (!desayunoOptional.isPresent()) {
-            return ResponseEntity.badRequest().body(null); // Desayuno no encontrado
-        }
-
-        ReviewDTO createdReview = reviewService.create(reviewDTO);
-        return ResponseEntity.ok(createdReview);
+    public ResponseEntity<Review> createReview(@RequestBody Review review, @RequestParam int idUsuario, @RequestParam int idDesayuno) {
+        Review savedReview = reviewService.createReview(review, idUsuario, idDesayuno);
+        return ResponseEntity.ok(savedReview);
     }
 
     // Actualizar una reseña existente

@@ -2,6 +2,8 @@ package com.daw.persistence.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,9 +50,11 @@ public class Review {
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id", insertable = false, updatable = false)
+	@JsonIgnore
 	private Usuario usuario;
 
 	@ManyToOne
 	@JoinColumn(name = "id_desayuno", referencedColumnName = "id", insertable = false, updatable = false)
+	@JsonIgnore
 	private Desayuno desayuno;
 }
