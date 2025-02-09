@@ -3,6 +3,7 @@ package com.daw.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class DesayunoService {
 		if (desayuno.getImagen() == null) {
 			desayuno.setImagen("https://i.pinimg.com/736x/6d/7a/43/6d7a43e03c4a75a218a47bb6fd5bfcd0.jpg");
 		}
-		return this.desayunoRepository.save(desayuno);	
+		return this.desayunoRepository.save(desayuno);
 	}
 
 	public Desayuno save(Desayuno desayuno) {
@@ -59,8 +60,10 @@ public class DesayunoService {
 		return result;
 	}
 
-	public List<Desayuno> getByPuntuacion() {
-		return this.desayunoRepository.findAllByOrderByPuntuacionDesc();
+	public List<DesayunoDTO> getByPuntuacion() {
+		return this.desayunoRepository.findAllByOrderByPuntuacionDesc().stream().map(DesayunoMapper::toDTO)
+				.collect(Collectors.toList());
+
 	}
 
 	public List<Desayuno> getByPuntuacionFromEstablecimiento(int idEstablecimiento) {
@@ -85,7 +88,8 @@ public class DesayunoService {
 		return desActualizado;
 	}
 	
-	public Optional<Desayuno> getNombreDesayuno(String nombre) {
-		return this.desayunoRepository.findByNombreDesayuno(nombre);
+	public Optional<Desayuno> obtenerNombreDesayuno (String nombre){
+		return this.desayunoRepository.findByNombre(nombre);
 	}
+
 }

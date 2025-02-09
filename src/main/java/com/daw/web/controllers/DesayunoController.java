@@ -41,6 +41,7 @@ public class DesayunoController {
 		return ResponseEntity.notFound().build();
 	}
 
+
 	@PostMapping
 	public ResponseEntity<Desayuno> create(@RequestBody Desayuno desayuno) {
 		Desayuno savedDesayuno = this.desayunoService.create(desayuno);
@@ -68,7 +69,7 @@ public class DesayunoController {
 	}
 
 	@GetMapping("/puntuacion")
-	public ResponseEntity<List<Desayuno>> puntuacionesDesayuno() {
+	public ResponseEntity<List<DesayunoDTO>> puntuacionesDesayuno() {
 		return ResponseEntity.ok(this.desayunoService.getByPuntuacion());
 	}
 

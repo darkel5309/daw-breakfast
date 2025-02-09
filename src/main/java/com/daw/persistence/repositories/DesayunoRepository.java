@@ -13,5 +13,5 @@ public interface DesayunoRepository extends ListCrudRepository<Desayuno, Integer
 	List<Desayuno> findByIdEstablecimientoOrderByPuntuacionDesc(int idEstablecimiento);
 	List<Desayuno> findByIdEstablecimientoOrderByPrecioAsc(int idEstablecimiento);
 	List<Desayuno> findByIdEstablecimiento(int idEstablecimiento);
-	Optional<Desayuno> findByNombreDesayuno(String nombre);
+	Optional<Desayuno> findByNombre(String nombre);
 }
