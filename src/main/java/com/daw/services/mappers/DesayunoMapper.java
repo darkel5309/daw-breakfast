@@ -6,6 +6,7 @@ import java.util.List;
 import com.daw.persistence.entities.Desayuno;
 import com.daw.persistence.entities.Review;
 import com.daw.services.dto.DesayunoDTO;
+import com.daw.services.dto.EstablecimientoDTO;
 import com.daw.services.dto.ReviewDTO;
 
 public class DesayunoMapper {
@@ -24,6 +25,8 @@ public class DesayunoMapper {
 		for(Review r : desayuno.getReviews()) {
 			reviews.add(ReviewMapper.toDTO(r));
 		}
+		dto.setReviews(reviews);
+		
 		return dto;
 	}
 	
