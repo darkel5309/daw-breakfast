@@ -11,6 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReviewDTO {
 	private Integer id;
+	private Integer idUsuario;
+	private Integer idDesayuno;
 	private String usuario;
 	private String desayuno;
 	private LocalDateTime fecha;

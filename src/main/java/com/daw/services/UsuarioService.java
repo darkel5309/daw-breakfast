@@ -70,6 +70,13 @@ public class UsuarioService {
         }
     }
 
+    //encontrar usuario por nombre
+    public Optional<Usuario> findByUsername(String username){
+        return this.usuarioRepository.findByUsername(username);
+    }
+
+
+
 
 
 }
