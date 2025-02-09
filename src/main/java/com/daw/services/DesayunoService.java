@@ -84,4 +84,8 @@ public class DesayunoService {
 
 		return desActualizado;
 	}
+	
+	public Optional<Desayuno> getNombreDesayuno(String nombre) {
+		return this.desayunoRepository.findByNombreDesayuno(nombre);
+	}
 }

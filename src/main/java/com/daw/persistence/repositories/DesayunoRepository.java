@@ -1,6 +1,7 @@
 package com.daw.persistence.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -12,4 +13,5 @@ public interface DesayunoRepository extends ListCrudRepository<Desayuno, Integer
 	List<Desayuno> findByIdEstablecimientoOrderByPuntuacionDesc(int idEstablecimiento);
 	List<Desayuno> findByIdEstablecimientoOrderByPrecioAsc(int idEstablecimiento);
 	List<Desayuno> findByIdEstablecimiento(int idEstablecimiento);
+	Optional<Desayuno> findByNombreDesayuno(String nombre);
 }
