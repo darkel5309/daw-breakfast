@@ -39,7 +39,9 @@ public class DesayunoService {
 	// falla
 	public DesayunoDTO create(Desayuno desayuno) {
 		desayuno.setPuntuacion(0.0);
-
+		if (desayuno.getImagen() == null) {
+			desayuno.setImagen("https://i.pinimg.com/736x/6d/7a/43/6d7a43e03c4a75a218a47bb6fd5bfcd0.jpg");
+		}
 		desayuno = this.desayunoRepository.save(desayuno);
 
 		return DesayunoMapper.toDTO(desayuno);
@@ -67,22 +69,22 @@ public class DesayunoService {
 	public List<Desayuno> getByPuntuacionFromEstablecimiento(int idEstablecimiento) {
 		return this.desayunoRepository.findByIdEstablecimientoOrderByPuntuacionDesc(idEstablecimiento);
 	}
-	
-	public List<Desayuno> getByPrecioFromEstablecimiento(int idEstablecimiento){
+
+	public List<Desayuno> getByPrecioFromEstablecimiento(int idEstablecimiento) {
 		return this.desayunoRepository.findByIdEstablecimientoOrderByPrecioAsc(idEstablecimiento);
 	}
-	
-	public List<Desayuno> getAllFromEstablecimiento(int idEstablecimiento){
+
+	public List<Desayuno> getAllFromEstablecimiento(int idEstablecimiento) {
 		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento);
 	}
-	
-	public Desayuno modImagen(int idDesayuno, String imagen){
+
+	public Desayuno modImagen(int idDesayuno, String imagen) {
 		Desayuno desayuno = this.desayunoRepository.findById(idDesayuno).get();
-		
+
 		desayuno.setImagen(imagen);
-		
+
 		Desayuno desActualizado = this.desayunoRepository.save(desayuno);
-		
+
 		return desActualizado;
 	}
 }
