@@ -4,6 +4,7 @@ package com.daw.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,8 +62,16 @@ public class EstablecimientoService {
 	public boolean exists(int idEstablecimiento){
 		return this.establecimientoRepository.existsById(idEstablecimiento);
 	}
-	
-	
+	 public List<EstablecimientoDTO> findAllOrderedByPuntuacionDesc() {
+	        return this.establecimientoRepository.findAllByOrderByPuntuacionDesc().stream()
+	                .map(EstablecimientoMapper::toDTO)
+	                .collect(Collectors.toList());
+	    }
+	 public List<EstablecimientoDTO> findByUbicacion(String ubicacion) {
+	        return this.establecimientoRepository.findByUbicacionContainingIgnoreCase(ubicacion).stream()
+	                .map(EstablecimientoMapper::toDTO)
+	                .collect(Collectors.toList());
+	    }
 	
 	
 }

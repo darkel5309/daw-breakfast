@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.daw.persistence.entities.Establecimiento;
 import com.daw.services.EstablecimientoService;
@@ -68,5 +69,13 @@ public class EstablecimientoController {
 		
 		return ResponseEntity.ok(this.establecimientoService.save(establecimiento));
 	}
+	@GetMapping("/rating")
+    public ResponseEntity<List<EstablecimientoDTO>> listByPuntuacionDesc() {
+        return ResponseEntity.ok(this.establecimientoService.findAllOrderedByPuntuacionDesc());
+    }
+	@GetMapping("/buscar")
+    public ResponseEntity<List<EstablecimientoDTO>> findByUbicacion(@RequestParam String ubicacion) {
+        return ResponseEntity.ok(this.establecimientoService.findByUbicacion(ubicacion));
+    }
 	
 }
