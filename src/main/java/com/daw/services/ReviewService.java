@@ -1,7 +1,6 @@
 package com.daw.services;
 
 import com.daw.persistence.entities.Desayuno;
-import com.daw.persistence.entities.Establecimiento;
 import com.daw.persistence.entities.Review;
 import com.daw.persistence.entities.Usuario;
 import com.daw.persistence.repositories.ReviewRepository;
@@ -13,7 +12,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -174,24 +172,30 @@ public class ReviewService {
 	
 	//Obtener review ordenadas por fecha(DESC)
 	public List<ReviewDTO> getFechasDesc(){
-		return this.reviewRepository.findByFechaOrderByDesc();
+		return this.reviewRepository.findAllByOrderByFechaDesc();
 	}
 	
 	//Obtener review ordenados por fecha(ASC)
 	public List<ReviewDTO> getFechasAsc(){
-		return this.reviewRepository.findByFechaOrderByAsc();
+		return this.reviewRepository.findAllByOrderByFechaAsc();
 	}
 	
 	//Obtener todas las revies ordenadas por puntuacion(DESC)
 	public List<ReviewDTO> getPuntuacionDesc(){
-		return this.reviewRepository.findByPuntuacionOrderByDesc();
+		return this.reviewRepository.findAllByOrderByPuntuacionDesc();
 	}
+	
+	//Obtener todas las revies ordenadas por puntuacion(ASC)
+		public List<ReviewDTO> getPuntuacionAsc(){
+			return this.reviewRepository.findAllByOrderByPuntuacionAsc();
+		}
+		
 	//Obtener review ordenados por fecha(ASC) de un desayuno
 	public List<ReviewDTO> getFechaDescDesay(int idDesayuno){
-		return this.reviewRepository.findByFechaOrderByDescByIdDesayuno(idDesayuno);
+		return this.reviewRepository.findByIdDesayunoOrderByFechaDesc(idDesayuno);
 	}
 	//Obtener todas las revies ordenadas por puntuacion(DESC) de un desayuno
 	public List<ReviewDTO> getPuntuacionDescDesay(int idDesayuno){
-		return this.reviewRepository.findByPuntuacionOrderByDescByIdDesayuno(idDesayuno);
+		return this.reviewRepository.findByIdDesayunoOrderByPuntuacionDesc(idDesayuno);
 	}
 }

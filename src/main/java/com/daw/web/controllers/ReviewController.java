@@ -1,11 +1,7 @@
 package com.daw.web.controllers;
 
-import com.daw.persistence.entities.Desayuno;
 import com.daw.persistence.entities.Review;
-import com.daw.persistence.entities.Usuario;
-import com.daw.services.DesayunoService;
 import com.daw.services.ReviewService;
-import com.daw.services.UsuarioService;
 import com.daw.services.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +17,6 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
-
-    @Autowired
-    private DesayunoService desayunoService;
-
-    @Autowired
-    private UsuarioService usuarioService;
 
     // Obtener todas las reseñas
     @GetMapping
@@ -108,6 +98,13 @@ public class ReviewController {
     @GetMapping("/puntuacion/desc")
     public ResponseEntity<List<ReviewDTO>> getPuntuacionDesc() {
         List<ReviewDTO> reviews = reviewService.getPuntuacionDesc();
+        return ResponseEntity.ok(reviews);
+    }
+    
+ // Obtener todas las reviews ordenadas por puntuación (ASC)
+    @GetMapping("/puntuacion/asc")
+    public ResponseEntity<List<ReviewDTO>> getPuntuacionAsc() {
+        List<ReviewDTO> reviews = reviewService.getPuntuacionAsc();
         return ResponseEntity.ok(reviews);
     }
 

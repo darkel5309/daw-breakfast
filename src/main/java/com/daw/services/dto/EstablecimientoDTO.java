@@ -1,10 +1,6 @@
 package com.daw.services.dto;
 
 import java.util.List;
-
-import com.daw.persistence.entities.Desayuno;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
