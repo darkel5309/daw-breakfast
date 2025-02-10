@@ -88,6 +88,42 @@ public class ReviewController {
         List<ReviewDTO> reviews = reviewService.findByUsuario(idUsuario);
         return ResponseEntity.ok(reviews);
     }
+    
+
+    // Obtener reviews ordenadas por fecha (DESC)
+    @GetMapping("/fecha/desc")
+    public ResponseEntity<List<ReviewDTO>> getFechasDesc() {
+        List<ReviewDTO> reviews = reviewService.getFechasDesc();
+        return ResponseEntity.ok(reviews);
+    }
+
+    // Obtener reviews ordenadas por fecha (ASC)
+    @GetMapping("/fecha/asc")
+    public ResponseEntity<List<ReviewDTO>> getFechasAsc() {
+        List<ReviewDTO> reviews = reviewService.getFechasAsc();
+        return ResponseEntity.ok(reviews);
+    }
+
+    // Obtener todas las reviews ordenadas por puntuación (DESC)
+    @GetMapping("/puntuacion/desc")
+    public ResponseEntity<List<ReviewDTO>> getPuntuacionDesc() {
+        List<ReviewDTO> reviews = reviewService.getPuntuacionDesc();
+        return ResponseEntity.ok(reviews);
+    }
+
+    // Obtener reviews ordenadas por fecha (DESC) de un desayuno
+    @GetMapping("/desayuno/{idDesayuno}/fecha/desc")
+    public ResponseEntity<List<ReviewDTO>> getFechaDescDesay(@PathVariable int idDesayuno) {
+        List<ReviewDTO> reviews = reviewService.getFechaDescDesay(idDesayuno);
+        return ResponseEntity.ok(reviews);
+    }
+
+    // Obtener todas las reviews ordenadas por puntuación (DESC) de un desayuno
+    @GetMapping("/desayuno/{idDesayuno}/puntuacion/desc")
+    public ResponseEntity<List<ReviewDTO>> getPuntuacionDescDesay(@PathVariable int idDesayuno) {
+        List<ReviewDTO> reviews = reviewService.getPuntuacionDescDesay(idDesayuno);
+        return ResponseEntity.ok(reviews);
+    }
 }
 
 

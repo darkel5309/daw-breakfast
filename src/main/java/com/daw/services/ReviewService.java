@@ -1,11 +1,15 @@
 package com.daw.services;
 
 import com.daw.persistence.entities.Desayuno;
+import com.daw.persistence.entities.Establecimiento;
 import com.daw.persistence.entities.Review;
 import com.daw.persistence.entities.Usuario;
 import com.daw.persistence.repositories.ReviewRepository;
 import com.daw.services.dto.ReviewDTO;
 import com.daw.services.mappers.ReviewMapper;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +58,7 @@ public class ReviewService {
 		return this.reviewRepository.existsById(idReview);
 	}
 
+	@Transactional
 	// Actualizar la puntuacion de desayuno
 	private void updateDesayunoPuntuacion(Desayuno desayuno) {
 		// Obtener todas las reseñas del desayuno
@@ -71,12 +76,12 @@ public class ReviewService {
 		desayuno.setPuntuacion(puntuacionPromedio);
 
 		// Guardar el desayuno con la nueva puntuación
-		this.desayunoService.save(desayuno);
+		Desayuno desayunoAct = this.desayunoService.save(desayuno);
+		
+		this.desayunoService.updateEstablecimientoPuntuacion(desayunoAct.getIdEstablecimiento());
 	}
 
 	// Crear una nueva reseña
-	// Crear una nueva reseña usando solo la entidad
-	// Crear una nueva reseña usando solo la entidad
 	public Review createReview(Review review, int idUsuario, int idDesayuno) {
 		Optional<Usuario> usuarioOptional = usuarioService.findById(idUsuario);
 		if (!usuarioOptional.isPresent()) {
@@ -165,5 +170,28 @@ public class ReviewService {
 		}
 
 		return reviewsDTO;
+	}
+	
+	//Obtener review ordenadas por fecha(DESC)
+	public List<ReviewDTO> getFechasDesc(){
+		return this.reviewRepository.findByFechaOrderByDesc();
+	}
+	
+	//Obtener review ordenados por fecha(ASC)
+	public List<ReviewDTO> getFechasAsc(){
+		return this.reviewRepository.findByFechaOrderByAsc();
+	}
+	
+	//Obtener todas las revies ordenadas por puntuacion(DESC)
+	public List<ReviewDTO> getPuntuacionDesc(){
+		return this.reviewRepository.findByPuntuacionOrderByDesc();
+	}
+	//Obtener review ordenados por fecha(ASC) de un desayuno
+	public List<ReviewDTO> getFechaDescDesay(int idDesayuno){
+		return this.reviewRepository.findByFechaOrderByDescByIdDesayuno(idDesayuno);
+	}
+	//Obtener todas las revies ordenadas por puntuacion(DESC) de un desayuno
+	public List<ReviewDTO> getPuntuacionDescDesay(int idDesayuno){
+		return this.reviewRepository.findByPuntuacionOrderByDescByIdDesayuno(idDesayuno);
 	}
 }

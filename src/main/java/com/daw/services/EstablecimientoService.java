@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.daw.persistence.entities.Establecimiento;
 import com.daw.persistence.repositories.EstablecimientoRepository;
 import com.daw.services.dto.EstablecimientoDTO;
@@ -38,6 +39,10 @@ public class EstablecimientoService {
 	public Optional<EstablecimientoDTO> findById(int idEstablecimiento) {
         Optional<Establecimiento> establecimiento = this.establecimientoRepository.findById(idEstablecimiento);
         return establecimiento.map(EstablecimientoMapper::toDTO);
+    }
+	
+	public Optional<Establecimiento> findEntityById(int idEstablecimiento) {
+        return this.establecimientoRepository.findById(idEstablecimiento);
     }
 	
 	public Establecimiento create(Establecimiento establecimiento) {

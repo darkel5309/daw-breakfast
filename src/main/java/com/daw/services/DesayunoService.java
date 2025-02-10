@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.daw.persistence.entities.Desayuno;
+import com.daw.persistence.entities.Establecimiento;
+import com.daw.persistence.entities.Review;
 import com.daw.persistence.repositories.DesayunoRepository;
 import com.daw.services.dto.DesayunoDTO;
 import com.daw.services.mappers.DesayunoMapper;
@@ -18,6 +20,9 @@ public class DesayunoService {
 
 	@Autowired
 	private DesayunoRepository desayunoRepository;
+	
+	@Autowired
+	private EstablecimientoService establecimientoService;
 
 	public List<DesayunoDTO> findAll() {
 		List<DesayunoDTO> desayunosDTO = new ArrayList<DesayunoDTO>();
@@ -31,6 +36,10 @@ public class DesayunoService {
 
 	public Optional<Desayuno> findById(int idDesayuno) {
 		return this.desayunoRepository.findById(idDesayuno);
+	}
+
+	public List<Desayuno> findByIdEstablecimiento(int idEstablecimiento) {
+		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento);
 	}
 
 	public boolean existsDesayuno(int idDesayuno) {
@@ -99,5 +108,28 @@ public class DesayunoService {
 	public Optional<Desayuno> obtenerNombreDesayuno (String nombre){
 		return this.desayunoRepository.findByNombre(nombre);
 	}
+	
+	public void updateEstablecimientoPuntuacion(int idEstablecimiento) {
+		// Obtener todas las reseñas del desayuno
+		Establecimiento establecimiento = this.establecimientoService.findEntityById(idEstablecimiento).get();
+		List<Desayuno> desayunos = this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento);
+
+		// Calcular el promedio de las puntuaciones
+		double sumaPuntuaciones = 0;
+		for (Desayuno desayuno : desayunos) {
+			sumaPuntuaciones += desayuno.getPuntuacion();
+		}
+
+		double puntuacionPromedio = sumaPuntuaciones / desayunos.size();
+
+		// Actualizar la puntuación promedio del desayuno
+		establecimiento.setPuntuacion(puntuacionPromedio);
+
+		// Guardar el desayuno con la nueva puntuación
+		this.establecimientoService.save(establecimiento);
+	}
+	
+	
+	
 
 }
