@@ -106,17 +106,17 @@ public class ReviewService {
 	}
 
 	// Actualizar una reseña existente
-	public ReviewDTO update(int idReview, ReviewDTO updatedReviewDTO) {
+	public Review update(int idReview, Review updatedReview) {
 		Optional<Review> review = this.reviewRepository.findById(idReview);
 
 		if (review.isPresent()) {
 			Review reviewOP = review.get();
 
 			// Actualizar los valores
-			reviewOP.setComentarios(updatedReviewDTO.getComentarios());
-			reviewOP.setPuntuacion(updatedReviewDTO.getPuntuacion());
-			reviewOP.setPrecio(updatedReviewDTO.getPrecio());
-			reviewOP.setImagen(updatedReviewDTO.getImagen());
+			reviewOP.setComentarios(updatedReview.getComentarios());
+			reviewOP.setPuntuacion(updatedReview.getPuntuacion());
+			reviewOP.setPrecio(updatedReview.getPrecio());
+			reviewOP.setImagen(updatedReview.getImagen());
 
 			// Guardamos la reseña actualizada
 			reviewOP = this.reviewRepository.save(reviewOP);
@@ -124,7 +124,7 @@ public class ReviewService {
 			// Recalcular la puntuación promedio del desayuno
 			updateDesayunoPuntuacion(reviewOP.getDesayuno());
 
-			return ReviewMapper.toDTO(reviewOP); // Convertimos a DTO y lo devolvemos
+			return reviewOP; // Convertimos a DTO y lo devolvemos
 		} else {
 			throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
 		}
@@ -132,18 +132,16 @@ public class ReviewService {
 
 	// Eliminar una reseña por su ID
 	public boolean delete(int idReview) {
-		Optional<Review> review = this.reviewRepository.findById(idReview);
+	    Optional<Review> review = this.reviewRepository.findById(idReview);
 
-		if (review.isPresent()) {
-			this.reviewRepository.deleteById(idReview);
+	    if (review.isPresent()) {
+	        this.reviewRepository.deleteById(idReview);
 
-			// Recalcular la puntuación promedio del desayuno
-			updateDesayunoPuntuacion(review.get().getDesayuno());
-
-			return true;
-		} else {
-			throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
-		}
+	        updateDesayunoPuntuacion(review.get().getDesayuno());
+	        return true;
+	    } else {
+	        throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
+	    }
 	}
 
 	// Obtener reseñas por desayuno (por ID del desayuno)

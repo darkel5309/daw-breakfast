@@ -1,5 +1,6 @@
 package com.daw.web.controllers;
 
+import com.daw.persistence.entities.Establecimiento;
 import com.daw.persistence.entities.Review;
 import com.daw.services.ReviewService;
 import com.daw.services.dto.ReviewDTO;
@@ -45,9 +46,9 @@ public class ReviewController {
 
     // Actualizar una reseña existente
     @PutMapping("/{idReview}")
-    public ResponseEntity<ReviewDTO> updateReview(@PathVariable int idReview, @RequestBody ReviewDTO updatedReviewDTO) {
+    public ResponseEntity<Review> updateReview(@PathVariable int idReview, @RequestBody Review Review) {
         if (reviewService.existsReview(idReview)) {
-            ReviewDTO updatedReview = reviewService.update(idReview, updatedReviewDTO);
+            Review updatedReview = reviewService.update(idReview, Review);
             return ResponseEntity.ok(updatedReview);
         } else {
             return ResponseEntity.notFound().build(); // Reseña no encontrada
@@ -56,14 +57,13 @@ public class ReviewController {
 
     // Eliminar una reseña por su ID
     @DeleteMapping("/{idReview}")
-    public ResponseEntity<Void> deleteReview(@PathVariable int idReview) {
-        if (reviewService.existsReview(idReview)) {
-            reviewService.delete(idReview);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build(); // Reseña no encontrada
-        }
-    }
+	public ResponseEntity<Review> delete(@PathVariable int idReview) {
+		if(this.reviewService.delete(idReview)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.notFound().build();
+	}
 
     // Obtener reseñas por desayuno (por ID del desayuno)
     @GetMapping("/desayuno/{idDesayuno}")
@@ -79,7 +79,7 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
     
-
+    //arreglar
     // Obtener reviews ordenadas por fecha (DESC)
     @GetMapping("/fecha/desc")
     public ResponseEntity<List<ReviewDTO>> getFechasDesc() {
