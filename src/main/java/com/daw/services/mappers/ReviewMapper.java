@@ -15,7 +15,8 @@ public class ReviewMapper {
 		
 		dto.setUsuario(review.getUsuario().getUsername());
 		dto.setDesayuno(review.getDesayuno().getNombre());
-		
+		dto.setIdUsuario(review.getUsuario().getId());
+		dto.setIdDesayuno(review.getDesayuno().getId());
 		return dto;
 	}
 	
