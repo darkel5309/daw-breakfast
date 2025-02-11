@@ -80,46 +80,35 @@ public class ReviewController {
     }
     
     //arreglar
-    // Obtener reviews ordenadas por fecha (DESC)
-    @GetMapping("/fecha/desc")
-    public ResponseEntity<List<ReviewDTO>> getFechasDesc() {
-        List<ReviewDTO> reviews = reviewService.getFechasDesc();
-        return ResponseEntity.ok(reviews);
-    }
-
     // Obtener reviews ordenadas por fecha (ASC)
     @GetMapping("/fecha/asc")
-    public ResponseEntity<List<ReviewDTO>> getFechasAsc() {
-        List<ReviewDTO> reviews = reviewService.getFechasAsc();
-        return ResponseEntity.ok(reviews);
+    public List<ReviewDTO> getAllByOrderByFechaAsc() {
+        return reviewService.findAllByOrderByFechaAsc();
     }
 
-    // Obtener todas las reviews ordenadas por puntuación (DESC)
-    @GetMapping("/puntuacion/desc")
-    public ResponseEntity<List<ReviewDTO>> getPuntuacionDesc() {
-        List<ReviewDTO> reviews = reviewService.getPuntuacionDesc();
-        return ResponseEntity.ok(reviews);
+    @GetMapping("/fecha/desc")
+    public List<ReviewDTO> getAllByOrderByFechaDesc() {
+        return reviewService.findAllByOrderByFechaDesc();
     }
-    
- // Obtener todas las reviews ordenadas por puntuación (ASC)
+
     @GetMapping("/puntuacion/asc")
-    public ResponseEntity<List<ReviewDTO>> getPuntuacionAsc() {
-        List<ReviewDTO> reviews = reviewService.getPuntuacionAsc();
-        return ResponseEntity.ok(reviews);
+    public List<ReviewDTO> getAllByOrderByPuntuacionAsc() {
+        return reviewService.findAllByOrderByPuntuacionAsc();
     }
 
-    // Obtener reviews ordenadas por fecha (DESC) de un desayuno
+    @GetMapping("/puntuacion/desc")
+    public List<ReviewDTO> getAllByOrderByPuntuacionDesc() {
+        return reviewService.findAllByOrderByPuntuacionDesc();
+    }
+
     @GetMapping("/desayuno/{idDesayuno}/fecha/desc")
-    public ResponseEntity<List<ReviewDTO>> getFechaDescDesay(@PathVariable int idDesayuno) {
-        List<ReviewDTO> reviews = reviewService.getFechaDescDesay(idDesayuno);
-        return ResponseEntity.ok(reviews);
+    public List<ReviewDTO> getByIdDesayunoOrderByFechaDesc(@PathVariable int idDesayuno) {
+        return reviewService.findByIdDesayunoOrderByFechaDesc(idDesayuno);
     }
 
-    // Obtener todas las reviews ordenadas por puntuación (DESC) de un desayuno
     @GetMapping("/desayuno/{idDesayuno}/puntuacion/desc")
-    public ResponseEntity<List<ReviewDTO>> getPuntuacionDescDesay(@PathVariable int idDesayuno) {
-        List<ReviewDTO> reviews = reviewService.getPuntuacionDescDesay(idDesayuno);
-        return ResponseEntity.ok(reviews);
+    public List<ReviewDTO> getByIdDesayunoOrderByPuntuacionDesc(@PathVariable int idDesayuno) {
+        return reviewService.findByIdDesayunoOrderByPuntuacionDesc(idDesayuno);
     }
 }
 

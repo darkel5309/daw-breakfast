@@ -10,10 +10,10 @@ import com.daw.services.dto.ReviewDTO;
 public interface ReviewRepository extends ListCrudRepository<Review, Integer>{
     List<Review> findByIdDesayuno(int idDesayuno);
     List<Review> findByIdUsuario(int idUsuario);
-    List<ReviewDTO> findAllByOrderByFechaAsc();
-    List<ReviewDTO> findAllByOrderByFechaDesc();
-    List<ReviewDTO> findAllByOrderByPuntuacionAsc();
-    List<ReviewDTO> findAllByOrderByPuntuacionDesc();
-    List<ReviewDTO> findByIdDesayunoOrderByFechaDesc(int idDesayuno);
-    List<ReviewDTO> findByIdDesayunoOrderByPuntuacionDesc(int idDesayuno);
+    List<Review> findAllByOrderByFechaAsc();
+    List<Review> findAllByOrderByFechaDesc();
+    List<Review> findAllByOrderByPuntuacionAsc();
+    List<Review> findAllByOrderByPuntuacionDesc();
+    List<Review> findByIdDesayunoOrderByFechaDesc(int idDesayuno);
+    List<Review> findByIdDesayunoOrderByPuntuacionDesc(int idDesayuno);
 }

@@ -5,6 +5,7 @@ import com.daw.persistence.entities.Review;
 import com.daw.persistence.entities.Usuario;
 import com.daw.persistence.repositories.ReviewRepository;
 import com.daw.services.dto.ReviewDTO;
+import com.daw.services.mappers.DesayunoMapper;
 import com.daw.services.mappers.ReviewMapper;
 
 import jakarta.transaction.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -68,8 +70,12 @@ public class ReviewService {
 			sumaPuntuaciones += review.getPuntuacion();
 		}
 
-		double puntuacionPromedio = sumaPuntuaciones / reviews.size();
+		double puntuacionPromedio = 0;
 
+		if(reviews.size()!=0) {
+			puntuacionPromedio= sumaPuntuaciones/reviews.size();
+		}
+		
 		// Actualizar la puntuación promedio del desayuno
 		desayuno.setPuntuacion(puntuacionPromedio);
 
@@ -169,31 +175,37 @@ public class ReviewService {
 	}
 	
 	//Obtener review ordenadas por fecha(DESC)
-	public List<ReviewDTO> getFechasDesc(){
-		return this.reviewRepository.findAllByOrderByFechaDesc();
-	}
 	
-	//Obtener review ordenados por fecha(ASC)
-	public List<ReviewDTO> getFechasAsc(){
-		return this.reviewRepository.findAllByOrderByFechaAsc();
-	}
-	
-	//Obtener todas las revies ordenadas por puntuacion(DESC)
-	public List<ReviewDTO> getPuntuacionDesc(){
-		return this.reviewRepository.findAllByOrderByPuntuacionDesc();
-	}
-	
-	//Obtener todas las revies ordenadas por puntuacion(ASC)
-		public List<ReviewDTO> getPuntuacionAsc(){
-			return this.reviewRepository.findAllByOrderByPuntuacionAsc();
-		}
-		
-	//Obtener review ordenados por fecha(ASC) de un desayuno
-	public List<ReviewDTO> getFechaDescDesay(int idDesayuno){
-		return this.reviewRepository.findByIdDesayunoOrderByFechaDesc(idDesayuno);
-	}
-	//Obtener todas las revies ordenadas por puntuacion(DESC) de un desayuno
-	public List<ReviewDTO> getPuntuacionDescDesay(int idDesayuno){
-		return this.reviewRepository.findByIdDesayunoOrderByPuntuacionDesc(idDesayuno);
-	}
+
+    public List<ReviewDTO> findAllByOrderByFechaAsc() {
+    	return this.reviewRepository.findAllByOrderByFechaAsc().stream()
+				.map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+        
+    }
+
+   public List<ReviewDTO> findAllByOrderByFechaDesc() {
+        return reviewRepository.findAllByOrderByFechaDesc().stream().map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+    }
+
+    public List<ReviewDTO> findAllByOrderByPuntuacionAsc() {
+        return reviewRepository.findAllByOrderByPuntuacionAsc().stream().map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+    }
+
+    public List<ReviewDTO> findAllByOrderByPuntuacionDesc() {
+        return reviewRepository.findAllByOrderByPuntuacionDesc().stream().map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+    }
+
+    public List<ReviewDTO> findByIdDesayunoOrderByFechaDesc(int idDesayuno) {
+        return reviewRepository.findByIdDesayunoOrderByFechaDesc(idDesayuno).stream().map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+    }
+
+    public List<ReviewDTO> findByIdDesayunoOrderByPuntuacionDesc(int idDesayuno) {
+        return reviewRepository.findByIdDesayunoOrderByPuntuacionDesc(idDesayuno).stream().map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+    }
 }
