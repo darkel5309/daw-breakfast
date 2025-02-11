@@ -5,7 +5,6 @@ import com.daw.persistence.entities.Review;
 import com.daw.persistence.entities.Usuario;
 import com.daw.persistence.repositories.ReviewRepository;
 import com.daw.services.dto.ReviewDTO;
-import com.daw.services.mappers.DesayunoMapper;
 import com.daw.services.mappers.ReviewMapper;
 
 import jakarta.transaction.Transactional;
@@ -37,7 +36,6 @@ public class ReviewService {
 		for (Review review : this.reviewRepository.findAll()) {
 			reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a ReviewDTO
 		}
-
 		return reviewsDTO;
 	}
 
@@ -66,22 +64,23 @@ public class ReviewService {
 
 		// Calcular el promedio de las puntuaciones
 		double sumaPuntuaciones = 0;
+		
 		for (Review review : reviews) {
 			sumaPuntuaciones += review.getPuntuacion();
 		}
 
 		double puntuacionPromedio = 0;
 
-		if(reviews.size()!=0) {
-			puntuacionPromedio= sumaPuntuaciones/reviews.size();
+		if (reviews.size() != 0) {
+			puntuacionPromedio = sumaPuntuaciones / reviews.size();
 		}
-		
+
 		// Actualizar la puntuación promedio del desayuno
 		desayuno.setPuntuacion(puntuacionPromedio);
 
 		// Guardar el desayuno con la nueva puntuación
 		Desayuno desayunoAct = this.desayunoService.save(desayuno);
-		
+
 		this.desayunoService.updateEstablecimientoPuntuacion(desayunoAct.getIdEstablecimiento());
 	}
 
@@ -138,16 +137,16 @@ public class ReviewService {
 
 	// Eliminar una reseña por su ID
 	public boolean delete(int idReview) {
-	    Optional<Review> review = this.reviewRepository.findById(idReview);
+		Optional<Review> review = this.reviewRepository.findById(idReview);
 
-	    if (review.isPresent()) {
-	        this.reviewRepository.deleteById(idReview);
+		if (review.isPresent()) {
+			this.reviewRepository.deleteById(idReview);
 
-	        updateDesayunoPuntuacion(review.get().getDesayuno());
-	        return true;
-	    } else {
-	        throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
-	    }
+			updateDesayunoPuntuacion(review.get().getDesayuno());
+			return true;
+		} else {
+			throw new IllegalArgumentException("Reseña con ID: " + idReview + " no encontrada.");
+		}
 	}
 
 	// Obtener reseñas por desayuno (por ID del desayuno)
@@ -158,7 +157,6 @@ public class ReviewService {
 		for (Review review : reviews) {
 			reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a DTO
 		}
-
 		return reviewsDTO;
 	}
 
@@ -170,42 +168,38 @@ public class ReviewService {
 		for (Review review : reviews) {
 			reviewsDTO.add(ReviewMapper.toDTO(review)); // Mapear a DTO
 		}
-
 		return reviewsDTO;
 	}
-	
-	//Obtener review ordenadas por fecha(DESC)
-	
 
-    public List<ReviewDTO> findAllByOrderByFechaAsc() {
-    	return this.reviewRepository.findAllByOrderByFechaAsc().stream()
-				.map(ReviewMapper::toDTO)
-				.collect(Collectors.toList());
-        
-    }
+	// Obtener review ordenadas por fecha(DESC)
 
-   public List<ReviewDTO> findAllByOrderByFechaDesc() {
-        return reviewRepository.findAllByOrderByFechaDesc().stream().map(ReviewMapper::toDTO)
+	public List<ReviewDTO> findAllByOrderByFechaAsc() {
+		return this.reviewRepository.findAllByOrderByFechaAsc().stream().map(ReviewMapper::toDTO)
 				.collect(Collectors.toList());
-    }
+	}
 
-    public List<ReviewDTO> findAllByOrderByPuntuacionAsc() {
-        return reviewRepository.findAllByOrderByPuntuacionAsc().stream().map(ReviewMapper::toDTO)
+	public List<ReviewDTO> findAllByOrderByFechaDesc() {
+		return reviewRepository.findAllByOrderByFechaDesc().stream().map(ReviewMapper::toDTO)
 				.collect(Collectors.toList());
-    }
+	}
 
-    public List<ReviewDTO> findAllByOrderByPuntuacionDesc() {
-        return reviewRepository.findAllByOrderByPuntuacionDesc().stream().map(ReviewMapper::toDTO)
+	public List<ReviewDTO> findAllByOrderByPuntuacionAsc() {
+		return reviewRepository.findAllByOrderByPuntuacionAsc().stream().map(ReviewMapper::toDTO)
 				.collect(Collectors.toList());
-    }
+	}
 
-    public List<ReviewDTO> findByIdDesayunoOrderByFechaDesc(int idDesayuno) {
-        return reviewRepository.findByIdDesayunoOrderByFechaDesc(idDesayuno).stream().map(ReviewMapper::toDTO)
+	public List<ReviewDTO> findAllByOrderByPuntuacionDesc() {
+		return reviewRepository.findAllByOrderByPuntuacionDesc().stream().map(ReviewMapper::toDTO)
 				.collect(Collectors.toList());
-    }
+	}
 
-    public List<ReviewDTO> findByIdDesayunoOrderByPuntuacionDesc(int idDesayuno) {
-        return reviewRepository.findByIdDesayunoOrderByPuntuacionDesc(idDesayuno).stream().map(ReviewMapper::toDTO)
+	public List<ReviewDTO> findByIdDesayunoOrderByFechaDesc(int idDesayuno) {
+		return reviewRepository.findByIdDesayunoOrderByFechaDesc(idDesayuno).stream().map(ReviewMapper::toDTO)
 				.collect(Collectors.toList());
-    }
+	}
+
+	public List<ReviewDTO> findByIdDesayunoOrderByPuntuacionDesc(int idDesayuno) {
+		return reviewRepository.findByIdDesayunoOrderByPuntuacionDesc(idDesayuno).stream().map(ReviewMapper::toDTO)
+				.collect(Collectors.toList());
+	}
 }

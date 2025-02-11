@@ -12,71 +12,69 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
-    //Devuelve true si existe usuario y viceversa
-    public boolean existsUser(int idUsuario){
-        return this.usuarioRepository.existsById(idUsuario);
-    }
+	// Devuelve true si existe usuario y viceversa
+	public boolean existsUser(int idUsuario) {
+		return this.usuarioRepository.existsById(idUsuario);
+	}
 
-    //Encontrar todos los usuarios
-    public List<Usuario> findAll(){
-        return this.usuarioRepository.findAll();
-    }
+	// Encontrar todos los usuarios
+	public List<Usuario> findAll() {
+		return this.usuarioRepository.findAll();
+	}
 
-    //Encontrar un usuario por id
-    public Optional<Usuario> findById(int idUsuario){
-        return this.usuarioRepository.findById(idUsuario);
-    }
+	// Encontrar un usuario por id
+	public Optional<Usuario> findById(int idUsuario) {
+		return this.usuarioRepository.findById(idUsuario);
+	}
 
-    //Crear un usuario
-    public Usuario create(Usuario usuario){
-        return this.usuarioRepository.save(usuario);
-    }
+	// Crear un usuario
+	public Usuario create(Usuario usuario) {
+		return this.usuarioRepository.save(usuario);
+	}
 
-    //Actualizar un usuario
-    public Usuario save(Usuario usuario){
-        return this.usuarioRepository.save(usuario);
-    }
+	// Actualizar un usuario
+	public Usuario save(Usuario usuario) {
+		return this.usuarioRepository.save(usuario);
+	}
 
-    //Borrar un usuario
-    public boolean delete(int idUsuario) {
-        boolean result = false;
+	// Borrar un usuario
+	public boolean delete(int idUsuario) {
+		boolean result = false;
 
-        if (this.usuarioRepository.existsById(idUsuario)) {
-            this.usuarioRepository.deleteById(idUsuario);
+		if (this.usuarioRepository.existsById(idUsuario)) {
+			this.usuarioRepository.deleteById(idUsuario);
 
-            return true;
-        }
-        return result;
-    }
+			return true;
+		}
+		return result;
+	}
 
-    //Modificar la contraseña del usuario
-    //Lo que he hecho ha sido crearle un DTO para que solo pasandole el id y la contraseña
-    //me modifica la contraseña, asi que una vez modificada me devolverá el usuario entero
-    //con la contraseña cambiada
-    public Usuario updatePassw(UsuarioDTO usuarioDTO) {
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(usuarioDTO.getId());
+	// Modificar la contraseña del usuario
+	// Lo que he hecho ha sido crearle un DTO para que solo pasandole el id y la
+	// contraseña
+	// me modifica la contraseña, asi que una vez modificada me devolverá el usuario
+	// entero
+	// con la contraseña cambiada
+	public Usuario updatePassw(UsuarioDTO usuarioDTO) {
+		Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(usuarioDTO.getId());
 
-        if (usuarioOptional.isPresent()) {
-            Usuario usuario = usuarioOptional.get();
+		if (usuarioOptional.isPresent()) {
+			Usuario usuario = usuarioOptional.get();
 
-            usuario.setPassword(usuarioDTO.getPassword());
+			usuario.setPassword(usuarioDTO.getPassword());
 
-            return this.usuarioRepository.save(usuario);
-        } else {
-            throw new IllegalArgumentException("El usuario con ID: " + usuarioDTO.getId() + " no se encuentra registrado.");
-        }
-    }
+			return this.usuarioRepository.save(usuario);
+		} else {
+			throw new IllegalArgumentException(
+					"El usuario con ID: " + usuarioDTO.getId() + " no se encuentra registrado.");
+		}
+	}
 
-    //encontrar usuario por nombre
-    public Optional<Usuario> findByUsername(String username){
-        return this.usuarioRepository.findByUsername(username);
-    }
-
-
-
-
-
+	// encontrar usuario por nombre
+	public Optional<Usuario> findByUsername(String username) {
+		return this.usuarioRepository.findByUsername(username);
+	}
 }

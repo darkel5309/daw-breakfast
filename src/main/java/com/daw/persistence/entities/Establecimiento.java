@@ -38,8 +38,8 @@ public class Establecimiento {
 
 	@Column(columnDefinition = "DECIMAL(3,2)")
 	private Double puntuacion;
-	
-	@OneToMany(mappedBy = "establecimiento" , fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "establecimiento", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Desayuno> desayunos;
 }

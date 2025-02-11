@@ -5,12 +5,12 @@ import com.daw.services.dto.UsuarioDTO;
 
 public class UsuarioMapper {
 
-    public UsuarioDTO toDTO(Usuario usuario){
-        UsuarioDTO dto = new UsuarioDTO();
+	public UsuarioDTO toDTO(Usuario usuario) {
+		UsuarioDTO dto = new UsuarioDTO();
 
-        dto.setId(usuario.getId());
-        dto.setPassword(usuario.getPassword());
+		dto.setId(usuario.getId());
+		dto.setPassword(usuario.getPassword());
 
-        return dto;
-    }
+		return dto;
+	}
 }

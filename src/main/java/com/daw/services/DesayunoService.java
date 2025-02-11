@@ -19,7 +19,7 @@ public class DesayunoService {
 
 	@Autowired
 	private DesayunoRepository desayunoRepository;
-	
+
 	@Autowired
 	private EstablecimientoService establecimientoService;
 
@@ -29,7 +29,6 @@ public class DesayunoService {
 		for (Desayuno p : this.desayunoRepository.findAll()) {
 			desayunosDTO.add(DesayunoMapper.toDTO(p));
 		}
-
 		return desayunosDTO;
 	}
 
@@ -69,28 +68,24 @@ public class DesayunoService {
 	}
 
 	public List<DesayunoDTO> getByPuntuacion() {
-		return this.desayunoRepository.findAllByOrderByPuntuacionDesc().stream()
-				.map(DesayunoMapper::toDTO)
+		return this.desayunoRepository.findAllByOrderByPuntuacionDesc().stream().map(DesayunoMapper::toDTO)
 				.collect(Collectors.toList());
 
 	}
 
 	public List<DesayunoDTO> getByPuntuacionFromEstablecimiento(int idEstablecimiento) {
 		return this.desayunoRepository.findByIdEstablecimientoOrderByPuntuacionDesc(idEstablecimiento).stream()
-				.map(DesayunoMapper::toDTO)
-				.collect(Collectors.toList());
-				
+				.map(DesayunoMapper::toDTO).collect(Collectors.toList());
+
 	}
 
 	public List<DesayunoDTO> getByPrecioFromEstablecimiento(int idEstablecimiento) {
 		return this.desayunoRepository.findByIdEstablecimientoOrderByPrecioAsc(idEstablecimiento).stream()
-				.map(DesayunoMapper::toDTO)
-				.collect(Collectors.toList());
+				.map(DesayunoMapper::toDTO).collect(Collectors.toList());
 	}
 
 	public List<DesayunoDTO> getAllFromEstablecimiento(int idEstablecimiento) {
-		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento).stream()
-				.map(DesayunoMapper::toDTO)
+		return this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento).stream().map(DesayunoMapper::toDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -101,17 +96,17 @@ public class DesayunoService {
 
 		return this.desayunoRepository.save(desayuno);
 	}
-	
-	public Optional<Desayuno> obtenerNombreDesayuno (String nombre){
+
+	public Optional<Desayuno> obtenerNombreDesayuno(String nombre) {
 		return this.desayunoRepository.findByNombre(nombre);
 	}
-	
+
 	public void updateEstablecimientoPuntuacion(int idEstablecimiento) {
-		// Obtener todas las reseñas del desayuno
+		// obtenemos todas las reseñas del desayuno
 		Establecimiento establecimiento = this.establecimientoService.findEntityById(idEstablecimiento).get();
 		List<Desayuno> desayunos = this.desayunoRepository.findByIdEstablecimiento(idEstablecimiento);
 
-		// Calcular el promedio de las puntuaciones
+		// calculamos el promedio de las puntuaciones
 		double sumaPuntuaciones = 0;
 		for (Desayuno desayuno : desayunos) {
 			sumaPuntuaciones += desayuno.getPuntuacion();
@@ -119,14 +114,11 @@ public class DesayunoService {
 
 		double puntuacionPromedio = sumaPuntuaciones / desayunos.size();
 
-		// Actualizar la puntuación promedio del desayuno
+		// actualizamos la puntuacion promedio del desayuno
 		establecimiento.setPuntuacion(puntuacionPromedio);
 
-		// Guardar el desayuno con la nueva puntuación
+		// guardamos el desayuno con la nueva puntuacion
 		this.establecimientoService.save(establecimiento);
 	}
-	
-	
-	
 
 }

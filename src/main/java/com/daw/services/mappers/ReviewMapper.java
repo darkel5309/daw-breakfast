@@ -12,14 +12,14 @@ public class ReviewMapper {
 		dto.setImagen(review.getImagen());
 		dto.setPuntuacion(review.getPuntuacion());
 		dto.setPrecio(review.getPrecio());
-		
+
 		dto.setUsuario(review.getUsuario().getUsername());
 		dto.setDesayuno(review.getDesayuno().getNombre());
 		dto.setIdUsuario(review.getUsuario().getId());
 		dto.setIdDesayuno(review.getDesayuno().getId());
 		return dto;
 	}
-	
+
 	public static Review toEntity(ReviewDTO reviewDto) {
 		Review entity = new Review();
 		entity.setId(reviewDto.getId());
@@ -28,8 +28,7 @@ public class ReviewMapper {
 		entity.setImagen(reviewDto.getImagen());
 		entity.setPuntuacion(reviewDto.getPuntuacion());
 		entity.setPrecio(reviewDto.getPrecio());
-		
+
 		return entity;
 	}
-
 }

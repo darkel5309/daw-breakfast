@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReviewDTO {
+	
 	private Integer id;
 	private Integer idUsuario;
 	private Integer idDesayuno;
@@ -20,6 +21,5 @@ public class ReviewDTO {
 	private Integer puntuacion;
 	private String imagen;
 	private Double precio;
-
 
 }

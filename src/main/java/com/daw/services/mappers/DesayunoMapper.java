@@ -9,7 +9,7 @@ import com.daw.services.dto.DesayunoDTO;
 import com.daw.services.dto.ReviewDTO;
 
 public class DesayunoMapper {
-	
+
 	public static DesayunoDTO toDTO(Desayuno desayuno) {
 		DesayunoDTO dto = new DesayunoDTO();
 		dto.setId(desayuno.getId());
@@ -17,17 +17,15 @@ public class DesayunoMapper {
 		dto.setPrecio(desayuno.getPrecio());
 		dto.setImagen(desayuno.getImagen());
 		dto.setPuntuacion(desayuno.getPuntuacion());
-		
+
 		dto.setEstablecimiento(desayuno.getEstablecimiento().getNombre());
-		
+
 		List<ReviewDTO> reviews = new ArrayList<ReviewDTO>();
-		for(Review r : desayuno.getReviews()) {
+		for (Review r : desayuno.getReviews()) {
 			reviews.add(ReviewMapper.toDTO(r));
 		}
 		dto.setReviews(reviews);
-		
+
 		return dto;
 	}
-	
-
 }

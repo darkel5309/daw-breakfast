@@ -34,8 +34,8 @@ public class Usuario {
 
 	@Column(length = 50, nullable = false)
 	private String password;
-	
-	@OneToMany(mappedBy ="usuario")
+
+	@OneToMany(mappedBy = "usuario")
 	@JsonIgnore
 	private List<Review> reviews;
 }

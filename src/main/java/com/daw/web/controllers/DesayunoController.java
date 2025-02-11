@@ -42,7 +42,6 @@ public class DesayunoController {
 		return ResponseEntity.notFound().build();
 	}
 
-
 	@PostMapping
 	public ResponseEntity<Desayuno> create(@RequestBody Desayuno desayuno) {
 		Desayuno savedDesayuno = this.desayunoService.create(desayuno);
@@ -83,21 +82,21 @@ public class DesayunoController {
 	public ResponseEntity<List<DesayunoDTO>> precioDesayunoEstablecimiento(@PathVariable int idEstablecimiento) {
 		return ResponseEntity.ok(this.desayunoService.getByPrecioFromEstablecimiento(idEstablecimiento));
 	}
-	
+
 	@GetMapping("/establecimiento/{idEstablecimiento}")
-	public ResponseEntity<List<DesayunoDTO>> desayunosEstablecimiento(@PathVariable int idEstablecimiento){
+	public ResponseEntity<List<DesayunoDTO>> desayunosEstablecimiento(@PathVariable int idEstablecimiento) {
 		return ResponseEntity.ok(this.desayunoService.getAllFromEstablecimiento(idEstablecimiento));
 	}
-	
+
 	@PutMapping("/actualizarImagen/{idDesayuno}")
-	public ResponseEntity<Desayuno> imagenModificada(@PathVariable int idDesayuno, @RequestBody DesayunoImagenDTO imagenDTO) {
-	    if (!this.desayunoService.existsDesayuno(idDesayuno)) {
-	        return ResponseEntity.notFound().build();
-	    }
+	public ResponseEntity<Desayuno> imagenModificada(@PathVariable int idDesayuno,
+			@RequestBody DesayunoImagenDTO imagenDTO) {
+		if (!this.desayunoService.existsDesayuno(idDesayuno)) {
+			return ResponseEntity.notFound().build();
+		}
 
-	    Desayuno desayunoActualizado = this.desayunoService.modImagen(idDesayuno, imagenDTO.getImagen());
+		Desayuno desayunoActualizado = this.desayunoService.modImagen(idDesayuno, imagenDTO.getImagen());
 
-	    return ResponseEntity.ok(desayunoActualizado);
+		return ResponseEntity.ok(desayunoActualizado);
 	}
-	
 }

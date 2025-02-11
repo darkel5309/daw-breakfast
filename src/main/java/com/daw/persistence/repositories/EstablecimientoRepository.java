@@ -6,8 +6,9 @@ import org.springframework.data.repository.ListCrudRepository;
 
 import com.daw.persistence.entities.Establecimiento;
 
-
-public interface EstablecimientoRepository extends ListCrudRepository<Establecimiento, Integer>{
-	    List<Establecimiento> findAllByOrderByPuntuacionDesc();
-	    List<Establecimiento> findByUbicacionContainingIgnoreCase(String ubicacion);
+public interface EstablecimientoRepository extends ListCrudRepository<Establecimiento, Integer> {
+	
+	List<Establecimiento> findAllByOrderByPuntuacionDesc();
+	List<Establecimiento> findByUbicacionContainingIgnoreCase(String ubicacion);
+	
 }

@@ -43,14 +43,14 @@ public class Desayuno {
 
 	@Column(columnDefinition = "DECIMAL(3,2)")
 	private Double puntuacion;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_establecimiento", referencedColumnName = "id", insertable = false, updatable = false )
+	@JoinColumn(name = "id_establecimiento", referencedColumnName = "id", insertable = false, updatable = false)
 	@JsonIgnore
 	private Establecimiento establecimiento;
-	
-	@OneToMany(mappedBy ="desayuno", orphanRemoval = true, cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "desayuno", orphanRemoval = true, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Review> reviews;
-	
+
 }

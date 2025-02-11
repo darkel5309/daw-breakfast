@@ -17,6 +17,5 @@ public class DesayunoDTO {
 	private String imagen;
 	private Double puntuacion;
 	private List<ReviewDTO> reviews;
-	
 
 }
