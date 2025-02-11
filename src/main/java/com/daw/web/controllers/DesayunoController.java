@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.daw.persistence.entities.Desayuno;
 import com.daw.services.DesayunoService;
 import com.daw.services.dto.DesayunoDTO;
+import com.daw.services.dto.DesayunoImagenDTO;
 
 @RestController
 @RequestMapping("/desayunos")
@@ -89,15 +90,14 @@ public class DesayunoController {
 	}
 	
 	@PutMapping("/actualizarImagen/{idDesayuno}")
-	public ResponseEntity<Desayuno> imagenModificada(@PathVariable int idDesayuno, @RequestBody Desayuno desayuno ){
-		if (idDesayuno != desayuno.getId()) {
-			return ResponseEntity.badRequest().build();
-		}
-		if (!this.desayunoService.existsDesayuno(idDesayuno)) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		return ResponseEntity.ok(this.desayunoService.save(desayuno));
+	public ResponseEntity<Desayuno> imagenModificada(@PathVariable int idDesayuno, @RequestBody DesayunoImagenDTO imagenDTO) {
+	    if (!this.desayunoService.existsDesayuno(idDesayuno)) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    Desayuno desayunoActualizado = this.desayunoService.modImagen(idDesayuno, imagenDTO.getImagen());
+
+	    return ResponseEntity.ok(desayunoActualizado);
 	}
 	
 }

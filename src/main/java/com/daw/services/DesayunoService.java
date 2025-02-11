@@ -99,9 +99,7 @@ public class DesayunoService {
 
 		desayuno.setImagen(imagen);
 
-		Desayuno desActualizado = this.desayunoRepository.save(desayuno);
-
-		return desActualizado;
+		return this.desayunoRepository.save(desayuno);
 	}
 	
 	public Optional<Desayuno> obtenerNombreDesayuno (String nombre){
