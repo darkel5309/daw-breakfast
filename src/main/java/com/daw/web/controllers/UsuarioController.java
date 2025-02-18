@@ -66,8 +66,19 @@ public class UsuarioController {
 		if (!this.usuarioService.existsUser(idUsuario)) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(this.usuarioService.updatePassw(usuarioDTO));
+		
+		if(usuarioDTO.getPasswordOld() != usuarioDTO.getPassword()) {
+			return ResponseEntity.ok(this.usuarioService.updatePassw(usuarioDTO));
+		}
+		
+		Usuario usuario = this.usuarioService.findById(idUsuario).get();
+		
+		if(usuarioDTO.getPasswordOld().equals(usuario.getPassword())) {
+			return ResponseEntity.ok(this.usuarioService.updatePassw(usuarioDTO));
+		}
+		return ResponseEntity.badRequest().build();
 	}
+	
 
 	// Borrar usuario
 	@DeleteMapping("/{idUsuario}")
